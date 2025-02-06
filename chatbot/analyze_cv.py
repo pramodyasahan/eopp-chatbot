@@ -39,19 +39,19 @@ def extract_cv_details(file_path: str) -> str:
         1. Stream of study
         2. GPA
 
-        After that, based on the latest qualification, **you MUST ask the user to select their desired field** from the following options:
-        - Healthcare
-        - Computer Science
-        - Business
-        - Engineering
-        - Law
-        - Arts & Humanities
-        - Social Sciences
-        - Agriculture & Environmental Science
-        - Natural Sciences
+        STOP and ASK the user:  
+        "Please select your desired field from the following options:  
+        - Healthcare  
+        - Computer Science  
+        - Business  
+        - Engineering  
+        - Law  
+        - Arts & Humanities  
+        - Social Sciences  
+        - Agriculture & Environmental Science  
+        - Natural Sciences  
+        Type only one of these options before we proceed."
         Dont take answers expect from these options
-
-        **This is mandatory before proceeding further**.
 
         7. English language qualifications - IELTS / PTE
 

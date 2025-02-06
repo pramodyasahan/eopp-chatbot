@@ -1,9 +1,9 @@
-1. Name: John Doe
+1. Name (as per passport): John Doe
 2. Date of birth: 01 January 1990
-3. Address: 123 Main Street, London, UK
-4. Contact number: +44 1234 567890 (available via WhatsApp)
+3. Address (with the country): 123 Main Street, London, UK
+4. Contact number (with country code) - available via WhatsApp: +44 1234 567890
 5. Email ID: johndoe@example.com
-6. Latest qualification: Bachelor of Science in Computer Science (June 2020)
+6. Latest qualification (month-year): Bachelor of Science in Computer Science - June 2020
 7. Desired field: Computer Science
 
-English language qualifications - IELTS / PTE: Not provided
+English language qualifications - IELTS / PTE: Information not provided.
