@@ -51,7 +51,7 @@ def extract_cv_details(file_path: str) -> str:
         - Natural Sciences
         Dont take answers expect from these options
 
-        This is mandatory before proceeding further.
+        **This is mandatory before proceeding further**.
 
         7. English language qualifications - IELTS / PTE
 

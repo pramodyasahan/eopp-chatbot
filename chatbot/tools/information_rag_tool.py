@@ -37,6 +37,8 @@ def query_data(input_string: str):
         print("No relevant documents found in Chroma vector store.")
         return "I do not have enough information to answer this question."
 
+    # Convert docs list into a string
+    docs_string = "\n\n".join([doc.page_content for doc in docs])
 
     template = """
     You are answering a user query based on retrieved documentation excerpts. 
@@ -59,23 +61,19 @@ def query_data(input_string: str):
     prompt = ChatPromptTemplate.from_template(template)
 
     # Debug prompt formatting
-    formatted_prompt = prompt.format(context="\n".join([doc.page_content for doc in docs]), question=input_string)
+    formatted_prompt = prompt.format(context=docs_string, question=input_string)
     print(f"Formatted Prompt:\n{formatted_prompt}")
 
-    # Chain execution
+    # Chain execution with properly formatted context
     chain = (
-            {"context": docs, "question": RunnablePassthrough()}
+            {"context": RunnablePassthrough(), "question": RunnablePassthrough()}  # Ensure proper passthrough
             | prompt
             | model
             | StrOutputParser()
     )
 
-    answer = chain.invoke({"context": docs, "question": input_string})
+    # Invoke the chain with properly formatted data
+    answer = chain.invoke({"context": docs_string, "question": input_string})
+
     print(f"Answer: {answer}")
     return answer
-
-
-if __name__ == "__main__":
-    query = "What are the entry requirements for the Level 1 Diploma in Bricklaying?"
-    answer = query_data(query)
-    print(answer)
