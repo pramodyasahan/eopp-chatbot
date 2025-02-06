@@ -3,7 +3,17 @@
 3. Address (with the country): 123 Main Street, London, UK
 4. Contact number (with country code) - available via WhatsApp: +44 1234 567890
 5. Email ID: johndoe@example.com
-6. Latest qualification (month-year): Bachelor of Science in Computer Science - June 2020
-7. Desired field: Computer Science
+6. Latest qualification (month-year): Bachelor of Science in Computer Science, University of Cambridge, UK (June 2020)
 
-English language qualifications - IELTS / PTE: Information not provided.
+Please select your desired field from the following options:
+- Healthcare
+- Computer Science
+- Business
+- Engineering
+- Law
+- Arts & Humanities
+- Social Sciences
+- Agriculture & Environmental Science
+- Natural Sciences
+
+7. English language qualifications - IELTS / PTE: Not given
