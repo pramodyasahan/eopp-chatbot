@@ -1,0 +1,36 @@
+1 Name (as per passport)
+2. Date of birth
+3. Address (with the country)
+4. Contact number with country code (available via WhatsApp)
+5. Email ID
+6. Latest qualificaHon (month-year)
+
+• If it is GCSE or O-levels then ask,
+mention study path is foundation course and ask,
+the results of the following subjects:
+1. English
+2. Maths
+3. Science
+
+• If it is A-Level, need the full results
+if the results are
+CCC - then the study path is Bachelors
+CSS - then the study path is InternaHonal Year 1 + Bachelors
+
+
+• If it is a Bachelors degree, need the following:
+1. Stream of study
+2. GPA
+3. The requirement to bring dependents (Y/N)
+
+
+• If it is a Masters degree, need the following:
+Stream of study
+1. GPA
+2. The requirement to bring dependents
+
+After that ask what is the filed you want to apply out of (healthcare, computer science, business, engineering,law, Arts & Humanities, Social Sciences, Agriculture & Environmental Science, Natural Sciences)
+
+7. Preferred study destination (s)
+8. Readiness (Timeline to commence)
+9. English language qualifications - IELTS / PTE

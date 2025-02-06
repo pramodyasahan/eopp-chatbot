@@ -1,0 +1,21 @@
+1. Name (as per passport): John Doe
+2. Date of birth: 01 January 1990
+3. Address (with the country): Not given
+4. Contact number (with country code) - available via WhatsApp: +44 1234 567890
+5. Email ID: johndoe@example.com
+6. Latest qualification (month-year): Bachelor of Science in Computer Science (June 2020)
+   - Stream of study: Computer Science
+   - GPA: Not given
+
+Please select your desired field from the following options:
+- Healthcare
+- Computer Science
+- Business
+- Engineering
+- Law
+- Arts & Humanities
+- Social Sciences
+- Agriculture & Environmental Science
+- Natural Sciences
+
+7. English language qualifications - IELTS / PTE: Not given

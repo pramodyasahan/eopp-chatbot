@@ -1,0 +1,10 @@
+langchain
+langchain-community
+langchain-openai
+langchain-chroma
+python-dotenv
+streamlit
+pypdf
+pysqlite3-binary
+gdown
+openpyxl
