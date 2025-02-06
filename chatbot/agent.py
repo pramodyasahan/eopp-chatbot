@@ -56,8 +56,8 @@ def setup_agent() -> AgentExecutor:
             We have analyzed the user's CV and extracted the following details:
             {extracted_details}
 
-            - **Verify** the details with the user and ask for any corrections or updates.
-            - If information is missing, ask for **one detail at a time** to avoid overwhelming them.
+            - Verify the details with the user and ask for any corrections or updates.
+            - If information is missing, **ASK ONE DETAIL AT A TIME and MUST not ask several question together** to avoid overwhelming them.
 
             ---
             Step 2: Asking Key Onboarding Questions

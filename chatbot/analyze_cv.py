@@ -39,7 +39,7 @@ def extract_cv_details(file_path: str) -> str:
         1. Stream of study
         2. GPA
 
-        STOP and ASK the user:  
+        STOP and ASK the user (If dont have the answer for this yet):  
         "Please select your desired field from the following options:  
         - Healthcare  
         - Computer Science  
