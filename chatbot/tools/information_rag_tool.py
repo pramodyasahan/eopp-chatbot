@@ -20,9 +20,9 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
 @tool
 def query_data(input_string: str):
-    """Use this tool to query knowldge base to answer questions about courses."""
+    """Use this tool to query knowledge base to answer questions about courses."""
     chroma_embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-    model = ChatOpenAI(model="gpt-4o-mini", streaming=True)
+    model = ChatOpenAI(model_name="gpt-4o-mini", streaming=True)
 
     chroma_db = Chroma(
         persist_directory="../chroma_db",
@@ -31,7 +31,7 @@ def query_data(input_string: str):
     )
     retriever = chroma_db.as_retriever(search_kwargs={'k': 4})
 
-    template = """You are given a question and some extracted parts from several documentaion that can be used to answer the question.
+    template = """You are given a question and some extracted parts from several documentation that can be used to answer the question.
     Give complete detailed answer.
 
     ==========

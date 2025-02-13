@@ -8,3 +8,4 @@ pypdf
 pysqlite3-binary
 gdown
 openpyxl
+pypdf2

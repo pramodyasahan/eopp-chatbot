@@ -7,13 +7,14 @@ def initial_filtering(file_path, filters):
     Supports:
     - Finding universities based on a specific degree program.
     - Standard filtering using university name, field type, location, and degree program type.
+    - Handles cases where a country name (e.g., "UK") is provided instead of a specific city.
     """
 
     # Load the Excel file
     df = pd.read_excel(file_path, sheet_name="Sheet1")
 
     # Normalize dataset column values (convert to lowercase for case-insensitive matching)
-    for col in ["university_name", "field_name", "location", "degree_program", "course_or_degree_name"]:
+    for col in ["university_name", "field_name", "location", "degree_program", "course_or_degree_name", "country"]:
         if col in df.columns:
             df[col] = df[col].astype(str).str.strip().str.lower()
 
@@ -48,8 +49,12 @@ def initial_filtering(file_path, filters):
         print("After field type filter:", df.shape[0])
 
     if filters.get("location"):
-        df = df[df["location"] == filters["location"].strip().lower()]
-        print("After location filter:", df.shape[0])
+        location_filter = filters["location"].strip().lower()
+
+        # Skip location filtering if the user provided "UK"
+        if location_filter != "uk":
+            df = df[df["location"] == location_filter]
+            print("After location filter:", df.shape[0])
 
     if filters.get("degree program type"):
         df = df[df["degree_program"] == filters["degree program type"].strip().lower()]

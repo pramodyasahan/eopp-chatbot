@@ -38,8 +38,8 @@ def extract_cv_details(file_path: str) -> str:
         If the qualification is a Master's degree, extract the following:
         1. Stream of study
         2. GPA
-
-        STOP and ASK the user (If dont have the answer for this yet):  
+        
+        STOP and ASK the user **If dont have the answer for this yet**  
         "Please select your desired field from the following options:  
         - Healthcare  
         - Computer Science  
@@ -53,7 +53,8 @@ def extract_cv_details(file_path: str) -> str:
         Type only one of these options before we proceed."
         Dont take answers expect from these options
 
-        7. English language qualifications - IELTS / PTE
+        7. English language qualifications - IELTS / PTE **This is optional**
+        if not given consider it as None
 
         Candidate CV:
         {cv}

@@ -1,12 +1,11 @@
 import os
-import json
 from langchain.agents import AgentExecutor, create_tool_calling_agent
-from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 from chatbot.memory import agent_memory
-from chatbot.eopp_tool import initial_filtering_tool
+from chatbot.tools.eopp_tool import initial_filtering_tool
+from chatbot.tools.cv_extraction_tool import cv_extraction_tool
 from chatbot.tools.information_rag_tool import query_data
 
 # Load environment variables
@@ -14,7 +13,7 @@ load_dotenv()
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
-tools = [query_data, initial_filtering_tool]
+tools = [query_data, initial_filtering_tool, cv_extraction_tool]
 
 
 def load_onboarding_questions() -> str:
@@ -64,7 +63,7 @@ def setup_agent() -> AgentExecutor:
             The following **onboarding questions** will help personalize the best recommendations:
             {load_onboarding_questions()}
 
-            - Ask the questions one by one.
+            - Ask the questions **one by one**. **Remember not to provide multiple questions at once**
             - Keep the conversation friendly and supportive.
 
             ---
@@ -81,6 +80,7 @@ def setup_agent() -> AgentExecutor:
 
             ---
             Conversation Guidelines:
+            - **If the user ask any information in the cv use **'cv_extraction_tool'** to answer for the question.**
             - **Keep responses concise yet informative.**
             - **Engage with the user naturally**—avoid robotic responses.
             - **Ask one question at a time** to maintain a smooth flow.
@@ -88,13 +88,13 @@ def setup_agent() -> AgentExecutor:
             - **Ensure all information is current and relevant.**
 
             ---
-            Let's begin! 😊
+            Let's begin! 
             """
             """
             Chat History:
             {chat_history}
 
-            User Input: {input}
+            **Latest** User Input: {input}
             {agent_scratchpad}
             """
         ),
@@ -105,15 +105,16 @@ def setup_agent() -> AgentExecutor:
 
     # Create the agent using the tool-calling agent builder
     agent = create_tool_calling_agent(agent_llm, tools, prompt)
-    agent_executor = AgentExecutor(
+    main_agent_executor = AgentExecutor(
         agent=agent,
         tools=tools,
         memory=agent_memory,
         verbose=True,
         handle_parsing_errors=True,
         max_iterations=5,
+        early_stopping_method='generate'
     )
-    return agent_executor
+    return main_agent_executor
 
 
 if __name__ == "__main__":
