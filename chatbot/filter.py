@@ -40,12 +40,12 @@ def initial_filtering(file_path, filters):
         return "No universities found for this course."
 
     # Apply standard filtering (when multiple filters are used)
-    if filters.get("university name"):
-        df = df[df["university_name"] == filters["university name"].strip().lower()]
+    if filters.get("university_name"):
+        df = df[df["university_name"] == filters["university_name"].strip().lower()]
         print("After university name filter:", df.shape[0])
 
-    if filters.get("field type"):
-        df = df[df["field_name"] == filters["field type"].strip().lower()]
+    if filters.get("field_type"):
+        df = df[df["field_name"] == filters["field_type"].strip().lower()]
         print("After field type filter:", df.shape[0])
 
     if filters.get("location"):
