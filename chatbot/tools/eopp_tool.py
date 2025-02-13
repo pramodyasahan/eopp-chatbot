@@ -2,71 +2,80 @@ import json
 from langchain.tools import tool
 from chatbot.filter import initial_filtering
 
-"""
+from pydantic import BaseModel, Field
+from typing import Optional
+
+
+class FilterCriteria(BaseModel):
+    """Defines all possible filtering criteria for educational opportunities."""
+
+    university_name: Optional[str] = Field(
+        None,
+        description="Name of the university. Example options include: "
+                    "'University of Westminster', 'University College Birmingham', "
+                    "'University of Suffolk', 'University of Worcester'."
+    )
+
+    field_type: Optional[str] = Field(
+        None,
+        description="Field of study or academic discipline. Common fields include: "
+                    "'Arts & Humanities', 'Business', 'Computer Science', 'Social Sciences', 'Law', 'Healthcare', "
+                    "'Engineering', 'Agriculture & Environmental Science', 'Natural Sciences'"
+    )
+
+    degree_level: Optional[str] = Field(
+        None,
+        description="Degree level or academic qualification type. Supported levels include: "
+                    "'Bachelor's', 'Master's', 'Postgraduate Diploma', 'Foundation', 'level 1', 'level 2', 'level 3', 'PhD', 'T-Level', "
+                    "'Higher National Certificate', 'Diploma', 'Doctorate'."
+    )
+
+    location: Optional[str] = Field(
+        None,
+        description="City or geographical location of the university. Example locations include: "
+                    "'London', 'Birmingham', 'Ipswich', 'Worcester'."
+    )
+
+    course_name: Optional[str] = Field(
+        None,
+        description="Specific course name. Examples include: "
+                    "'Construction Management', 'International Business and Management', 'Media and Development MA', "
+                    "'Primary Education BA (Hons) with QTS'"
+    )
+
+
+class InitialFilteringToolInput(BaseModel):
+    """Defines the input schema for the filtering tool."""
+
+    filters: FilterCriteria = Field(..., description="Filtering criteria in structured format.")
+    latest_qualification: Optional[str] = Field(
+        None, description="User's latest qualification (O-levels, A-Level, Bachelors, Masters)."
+    )
+
+
 @tool()
-def initial_filtering_tool(filters_json: str) -> str:
-
-    Initial Filtering Tool
-
-    Filters courses based on user criteria or returns universities offering a specific course.
-
-    Allowed Filters:
-    - University Name: university college birmingham, university of westminster, university of suffolk, university of west london, university of worcester.
-    - Field Type: healthcare, computer science, business, engineering, law, Arts & Humanities, Education, Social Sciences, Agriculture & Environmental Science, Natural Sciences.
-    - Degree Level: bachelor's, master's, foundation, phd.
-    - Location: birmingham, ipswich, westminster, suffolk, london.
-    - Course Name: Returns universities offering the specified course.
-
-    Usage Example:
-    {
-        "university name": null,
-        "field type": "engineering",
-        "location": "london",
-        "degree program type": "bachelor's"
-    }
-
-    Response: A comma-separated list of matching courses/universities or an appropriate message.
-"""
-
-
-@tool()
-def initial_filtering_tool(filters_json: str, latest_qualification: str = None) -> str:
+def initial_filtering_tool(input_data: InitialFilteringToolInput) -> str:
     """
-    Filters educational opportunities based on user criteria.
+    Retrieve university courses based on user-defined filters.
 
-    Parameters:
-    - filters_json (str): JSON string containing filters like:
-      - University Name: e.g., "university of westminster"
-      - Field Type: e.g., "engineering", "business", "computer science"
-      - Degree Level: "bachelor's", "master's", "PhD"
-      - Location: e.g., "london", "birmingham"
-      - Course Name: Returns universities offering a specific course.
-    - latest_qualification (str, optional): One of ["O-levels", "A-Level", "Bachelors", "Masters"].
+    This tool filters university courses using structured criteria provided
+    in the `InitialFilteringToolInput` model. It supports multiple filtering
+    options, including university name, field type, degree level, location,
+    and course name. The user's latest qualification is also considered.
 
-    Functionality:
-    - Uses `latest_qualification` to filter by education level:
-      - "O-levels" → foundation programs.
-      - "A-Level" → bachelor's programs.
-      - "Bachelors" → master's programs.
-      - "Masters" → PhD programs.
-      
-    Usage:
-    {
-        "university name": null,
-        "field type": "engineering",
-        "location": "london",
-        "degree program type": "bachelor's"
-    }, 
+    Args:
+        input_data (InitialFilteringToolInput): Structured filtering parameters
+        as defined in the Pydantic model.
 
     Returns:
-    - A comma-separated list of matching results or an appropriate message.
-    """  # noqa: E501
+        str: A comma-separated list of matching university-course pairs, or
+        an appropriate message if no matches are found.
+    """
 
-    try:
-        filters = json.loads(filters_json)
-        print("Filters received:", filters)
-    except Exception as e:
-        return f"Error parsing filters JSON: {e}"
+    # Only use non-None filters to prevent over-filtering
+    filters = {key: value for key, value in input_data.filters.model_dump().items() if value is not None}
+
+    print("Filters received:", filters)
 
     file_path = "chatbot/data/processed/updated_data.xlsx"
     filtered_df = initial_filtering(file_path, filters)
@@ -77,10 +86,13 @@ def initial_filtering_tool(filters_json: str, latest_qualification: str = None) 
     if filtered_df.empty:
         return "No matching results found."
 
-    courses_and_universities = [
-        f"{row['university_name']} - {row['course_or_degree_name']}"
-        for _, row in filtered_df.iterrows()
-    ]
+    # Ensure multiple universities are included
+    university_groups = filtered_df.groupby("university_name")
 
-    # Join the results into a comma-separated string
+    courses_and_universities = []
+    for university, group in university_groups:
+        top_courses = group.head(10)  # Limit results per university
+        for _, row in top_courses.iterrows():
+            courses_and_universities.append(f"{row['university_name']} - {row['course_or_degree_name']}")
+
     return ", ".join(courses_and_universities)
