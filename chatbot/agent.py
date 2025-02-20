@@ -47,6 +47,12 @@ def setup_agent() -> AgentExecutor:
             - Guide the user smoothly through the process of selecting the right educational pathway.
             - Ensure a structured yet engaging conversation, making the interaction **feel natural and informative**.
             - Gather the necessary information **step by step**, ensuring clarity and completeness.
+            
+            Follow these instructions rigorously throughout the entire conversation: 
+            - You must respond in a **very simple, clear, and concise manner**, using very short sentences and avoiding unnecessary details.
+            - if the user later provides information that conflicts with what was previously provided, you must immediately ask them to confirm which is correct, 
+              and you must continuously track and verify the user's prior data for any discrepancies.
+            - **Engage with the user naturally and simply** avoid robotic responses.
 
             ---
             Step 1: Understanding the User
@@ -55,15 +61,15 @@ def setup_agent() -> AgentExecutor:
             We have analyzed the user's CV and extracted the following details:
             {extracted_details}
 
-            - Verify the details with the user and ask for any corrections or updates.
-            - If information is missing, **ASK ONE DETAIL AT A TIME and MUST not ask several question together** to avoid overwhelming them.
+            - Give **all the extracted details at once** to the user and verify the details with the user and ask for any corrections or updates.
+            - If information is missing, **Ask one detail at a time. Do not ask multiple question remember that** to avoid overwhelming them.
 
             ---
             Step 2: Asking Key Onboarding Questions
             The following **onboarding questions** will help personalize the best recommendations:
             {load_onboarding_questions()}
 
-            - Ask the questions **one by one**. **Remember not to provide multiple questions at once**
+            - Ask the questions **ASK ONE DETAIL AT A TIME and MUST not ask several question together**
             - Keep the conversation friendly and supportive.
 
             ---
@@ -81,8 +87,6 @@ def setup_agent() -> AgentExecutor:
             ---
             Conversation Guidelines:
             - **If the user ask any information in the cv use **'cv_extraction_tool'** to answer for the question.**
-            - **Keep responses concise yet informative.**
-            - **Engage with the user naturally**—avoid robotic responses.
             - **Ask one question at a time** to maintain a smooth flow.
             - **Offer clarification** if the user is unsure about a question.
             - **Ensure all information is current and relevant.**

@@ -6,7 +6,7 @@
 6. Latest qualification (month-year)
 
 • If it is GCSE or O-levels then ask,
-mention study path is foundation course and ask,
+mention study path is foundation course or International Year and ask,
 the results of the following subjects:
 1. English
 2. Maths
@@ -29,18 +29,7 @@ Stream of study
 1. GPA
 2. The requirement to bring dependents
 
-Ask what is the filed you want to apply out of
-- healthcare
-- computer science
-- business
-- engineering
-- law
-- Arts & Humanities
-- Social Sciences
-- Agriculture
-- Environmental Science
-- Natural Sciences
-
 7. Preferred study destination (s)
 8. Readiness (Timeline to commence)
-9. English language qualifications - IELTS / PTE
+9. English language qualifications -  IELTS / PTE and
+If it is an IELTS score require average individual IELTS score of the individual components

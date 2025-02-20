@@ -39,22 +39,20 @@ def extract_cv_details(file_path: str) -> str:
         1. Stream of study
         2. GPA
         
-        STOP and ASK the user **If dont have the answer for this yet**  
-        "Please select your desired field from the following options:  
-        - Healthcare  
-        - Computer Science  
-        - Business  
-        - Engineering  
-        - Law  
-        - Arts & Humanities  
-        - Social Sciences  
-        - Agriculture & Environmental Science  
-        - Natural Sciences  
-        Type only one of these options before we proceed."
-        Dont take answers expect from these options
+        Remember, **you must confirm the stream of study** from the latest qualification. If it’s missing or different, 
+        ask the user for clarification using the provided options.
+        - healthcare
+        - computer science
+        - business
+        - engineering
+        - law
+        - Arts & Humanities
+        - Social Sciences
+        - Agriculture
+        - Environmental Science
+        - Natural Sciences
 
-        7. English language qualifications - IELTS / PTE **This is optional**
-        if not given consider it as None
+        7. English language qualifications - IELTS / PTE
 
         Candidate CV:
         {cv}
@@ -69,5 +67,5 @@ def extract_cv_details(file_path: str) -> str:
     os.makedirs("temp", exist_ok=True)
     with open("temp/extracted_details.txt", "w") as file:
         file.write(output)
-
+    print(f"Output from the CV extraction: \n{output}\n\n")
     return output

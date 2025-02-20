@@ -1,9 +1,7 @@
-import json
 from langchain.tools import tool
 from chatbot.filter import initial_filtering
-
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 
 class FilterCriteria(BaseModel):
@@ -12,45 +10,88 @@ class FilterCriteria(BaseModel):
     university_name: Optional[str] = Field(
         None,
         description="Name of the university. Example options include: "
-                    "'University of Westminster', 'University College Birmingham', "
-                    "'University of Suffolk', 'University of Worcester'."
+                    "university of westminster, university college birmingham, "
+                    "university of suffolk, university of worcester"
     )
-
     field_type: Optional[str] = Field(
         None,
         description="Field of study or academic discipline. Common fields include: "
-                    "'Arts & Humanities', 'Business', 'Computer Science', 'Social Sciences', 'Law', 'Healthcare', "
-                    "'Engineering', 'Agriculture & Environmental Science', 'Natural Sciences'"
+                    "arts and humanities, business, computer science, social sciences, law, healthcare, "
+                    "engineering, agriculture and environmental science, natural_sciences"
     )
-
-    degree_level: Optional[str] = Field(
+    degree_program: Optional[str] = Field(
         None,
         description="Degree level or academic qualification type. Supported levels include: "
-                    "'Bachelor's', 'Master's', 'Postgraduate Diploma', 'Foundation', 'level 1', 'level 2', 'level 3', 'PhD', 'T-Level', "
-                    "'Higher National Certificate', 'Diploma', 'Doctorate'."
+                    "bachelor's, master's, postgraduate_diploma, foundation, level_1, level_2, level_3, phd, t_level, "
+                    "higher_national_certificate, diploma, doctorate"
     )
-
     location: Optional[str] = Field(
         None,
         description="City or geographical location of the university. Example locations include: "
-                    "'London', 'Birmingham', 'Ipswich', 'Worcester'."
+                    "london, birmingham, ipswich, worcester"
     )
-
     course_name: Optional[str] = Field(
         None,
         description="Specific course name. Examples include: "
-                    "'Construction Management', 'International Business and Management', 'Media and Development MA', "
-                    "'Primary Education BA (Hons) with QTS'"
+                    "construction_management, international_business_and_management, media_and_development_ma, "
+                    "primary_education_ba_hons_with_qts"
     )
+    latest_qualification: Optional[str] = Field(
+        None,
+        description="Applicant's latest academic qualification. Supported values include: "
+                    "a_levels, gcse, o_level, btec, ib, cache, hnd, hnc, nvq, bachelor's, master's, phd, "
+                    "foundation, t_level, higher_national_certificate, diploma"
+    )
+
+    gpa: Optional[float] = Field(
+        None,
+        description="GPA achieved by the user as example 2.5, 3, 3.3, 3.4, 3.6, 3.9"
+    )
+
+    ielts: Optional[float] = Field(
+        None,
+        description="Overall IELTS score of the applicant."
+    )
+
+    ielts_individual_component: Optional[float] = Field(
+        None,
+        description="Individual IELTS component scores average."
+    )
+    ucas_tariff: Optional[float] = Field(
+        None,
+        description="UCAS tariff points achieved by the applicant."
+    )
+    btec_diploma: Optional[str] = Field(
+        None,
+        description="Details or classification of the BTEC Diploma achieved."
+    )
+    btec_extended_diploma: Optional[str] = Field(
+        None,
+        description="Details or classification of the BTEC Extended Diploma achieved."
+    )
+    gcse_overall: Optional[str] = Field(
+        None,
+        description="Overall GCSE grade or score, if applicable."
+    )
+    mandatory_subject_of_gcse: Optional[List[str]] = Field(
+        None,
+        description="List of mandatory subjects in GCSE that the applicant has taken."
+    )
+    a_levels_overall: Optional[str] = Field(
+        None,
+        description="Overall A-Levels grade or score."
+    )
+    mandatory_subject_of_a_levels: Optional[List[str]] = Field(
+        None,
+        description="List of mandatory subjects in A-Levels."
+    )
+
 
 
 class InitialFilteringToolInput(BaseModel):
     """Defines the input schema for the filtering tool."""
 
     filters: FilterCriteria = Field(..., description="Filtering criteria in structured format.")
-    latest_qualification: Optional[str] = Field(
-        None, description="User's latest qualification (O-levels, A-Level, Bachelors, Masters)."
-    )
 
 
 @tool()
@@ -73,6 +114,7 @@ def initial_filtering_tool(input_data: InitialFilteringToolInput) -> str:
     """
 
     # Only use non-None filters to prevent over-filtering
+    print(f"Initial Filter Input: \n{input_data}\n")
     filters = {key: value for key, value in input_data.filters.model_dump().items() if value is not None}
 
     print("Filters received:", filters)
