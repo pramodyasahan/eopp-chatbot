@@ -13,9 +13,17 @@ class FilterCriteria(BaseModel):
                     "university of westminster, university college birmingham, "
                     "university of suffolk, university of worcester"
     )
+
+    latest_qualification: Optional[str] = Field(
+        None,
+        description="Applicant's latest academic qualification. Supported values include: This is always mandatory"
+                    "a_levels, gcse, o_level, btec, ib, cache, hnd, hnc, nvq, bachelor's, master's, phd, "
+                    "foundation, t_level, higher_national_certificate, diploma"
+    )
+
     field_type: Optional[str] = Field(
         None,
-        description="Field of study or academic discipline. Common fields include: "
+        description="Field of study or academic discipline. Common fields include: This is always mandatory"
                     "arts and humanities, business, computer science, social sciences, law, healthcare, "
                     "engineering, agriculture and environmental science, natural_sciences"
     )
@@ -36,12 +44,6 @@ class FilterCriteria(BaseModel):
                     "construction_management, international_business_and_management, media_and_development_ma, "
                     "primary_education_ba_hons_with_qts"
     )
-    latest_qualification: Optional[str] = Field(
-        None,
-        description="Applicant's latest academic qualification. Supported values include: "
-                    "a_levels, gcse, o_level, btec, ib, cache, hnd, hnc, nvq, bachelor's, master's, phd, "
-                    "foundation, t_level, higher_national_certificate, diploma"
-    )
 
     gpa: Optional[float] = Field(
         None,
@@ -57,10 +59,7 @@ class FilterCriteria(BaseModel):
         None,
         description="Individual IELTS component scores average."
     )
-    ucas_tariff: Optional[float] = Field(
-        None,
-        description="UCAS tariff points achieved by the applicant."
-    )
+
     btec_diploma: Optional[str] = Field(
         None,
         description="Details or classification of the BTEC Diploma achieved."
@@ -87,11 +86,10 @@ class FilterCriteria(BaseModel):
     )
 
 
-
 class InitialFilteringToolInput(BaseModel):
     """Defines the input schema for the filtering tool."""
 
-    filters: FilterCriteria = Field(..., description="Filtering criteria in structured format.")
+    filters: FilterCriteria = Field(..., description="Filtering criteria in a JSON structured format.")
 
 
 @tool()

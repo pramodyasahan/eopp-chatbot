@@ -71,9 +71,12 @@ def initial_filtering(file_path, filters):
     """
 
     # Load the Excel file
-    df = filter_courses_by_eligibility(file_path, filters.get('latest_qualification', ''),
-                                       filters.get('requires_gcse', False))
-    print(f"After applying initial filtering, {len(df)} courses were filtered.")
+    if filters.get("latest_qualification"):
+        df = filter_courses_by_eligibility(file_path, filters.get('latest_qualification', ''),
+                                           filters.get('requires_gcse', False))
+        print(f"After applying initial filtering, {len(df)} courses were filtered.")
+    else:
+        df = pd.read_excel(file_path, sheet_name="Sheet1")
 
     # Normalize dataset column values (convert to lowercase for case-insensitive matching)
     column_list = [
